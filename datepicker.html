@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<link rel="stylesheet" href="css/datepicker.css">
+</head>
+<style>
+.date-box{
+	width: 300px;
+	height: 30px;
+	margin: 100px;
+}
+.date-box input{
+	width: 100px;
+	height: 30px;
+	padding: 0 0 0 10px;
+}
+.date-box span{
+	padding: 0 0 0 10px;
+}
+</style>
+<body>
+	<svg aria-hidden="true" style="position: absolute; width: 0px; height: 0px; overflow: hidden;">
+		<symbol viewBox="0 0 20 20" id="icon-back">
+			<path d="M10.99,15.4870409 C10.71,15.7896159 10.33,16.0705783 9.97,15.9841283 C9.61,16.0489658 9.27,15.7463909 8.99,15.4870409 L0.33,6.08560574 C-0.11,5.61013086 -0.11,4.83208105 0.33,4.35660616 C0.77,3.88113128 1.49,3.88113128 1.93,4.35660616 L9.99,13.304179 L18.07,4.35660616 C18.51,3.88113128 19.23,3.88113128 19.67,4.35660616 C20.11,4.83208105 20.11,5.61013086 19.67,6.08560574 L10.99,15.4870409 Z" id="路径"
+			transform="translate(10.000000, 10.000000) rotate(-270.000000) translate(-10.000000, -10.000000) "></path>
+		</symbol>
+		<symbol viewBox="0 0 20 20" id="icon-right">
+			 <path d="M10.99,15.4870409 C10.71,15.7896159 10.33,16.0705783 9.97,15.9841283 C9.61,16.0489658 9.27,15.7463909 8.99,15.4870409 L0.33,6.08560574 C-0.11,5.61013086 -0.11,4.83208105 0.33,4.35660616 C0.77,3.88113128 1.49,3.88113128 1.93,4.35660616 L9.99,13.304179 L18.07,4.35660616 C18.51,3.88113128 19.23,3.88113128 19.67,4.35660616 C20.11,4.83208105 20.11,5.61013086 19.67,6.08560574 L10.99,15.4870409 Z" id="路径"  transform="translate(10.000000, 10.000000) rotate(-90.000000) translate(-10.000000, -10.000000) "></path>
+		</symbol>
+    </svg>
+
+    <div class="date-box"><span>点击显示日历：</span><input type="text" id="stDate"><span id="week"></span></div>
+
+	<script src="js/datepicker.js"></script>
+	<script>
+		window.addEventListener('load',function(){
+			var inpObj = document.getElementById('stDate');
+			var weekObj = document.getElementById('week');
+			inpObj.addEventListener('click',function(){
+				if(datePicker){
+					datePicker.show();
+				}else{
+					var datePicker = new DatePicker({
+						mode:'single',
+						month: 2,
+						attachTo: document.body,
+						selLabels:['去程'],
+						selDates:[],
+						isShow: true,
+						selectionType: 'callback',
+						onSelection: function(dateGroup){
+							inpObj.value = getSimpleDate(dateGroup[0]);
+							weekObj.innerHTML =getWeekByDate(dateGroup[0]);
+							datePicker.hide();
+						}
+					});
+					datePicker.init();
+					datePicker.rootTmp.style.left = inpObj.offsetLeft+'px';
+					datePicker.rootTmp.style.top = inpObj.offsetTop+inpObj.offsetHeight+'px';
+				}
+			})
+		})
+
+	//获取月份日期
+	function getSimpleDate(dateStr){
+		var strArr = dateStr.split('/');
+		if(strArr[1]<10){
+			strArr[1] = 0+strArr[1];
+		}
+		if(strArr[2]<10){
+			strArr[2] = 0+strArr[2];
+		}
+		return strArr[0]+'-'+strArr[1]+'-'+strArr[2];
+	}
+
+	//获取星期
+	function getWeekByDate(date) {
+		var weekArray = new Array("周日", "周一", "周二", "周三", "周四", "周五", "周六");
+		var week = weekArray[new Date(date).getDay()];
+		return week;
+	}
+		
+	</script>
+</body>
+</html>
