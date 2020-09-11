@@ -43,6 +43,11 @@ var DatePicker = (function(){
 			//根容器
 			var rootTmp = document.createElement('div');
 			rootTmp.classList.add('jm-datepicker');
+                        if(this.mode == 'range'){
+				rootTmp.classList.add('jm-datepicker-range');
+			}else{
+				rootTmp.classList.add('jm-datepicker-single');
+			}
 			if(!this.isShow){
 				rootTmp.classList.add('jm-datepicker-hide');
 			}
@@ -66,7 +71,19 @@ var DatePicker = (function(){
 
 			//添加到容器中
 			if(this.attachTo !=''){
-				this.attachTo.appendChild(rootTmp);
+				var datePicker;
+				if(this.mode == 'range'){
+					datePicker = document.querySelector('.jm-datepicker-range');
+				}else{
+					datePicker = document.querySelector('.jm-datepicker-single');
+				}
+				if(datePicker == null){
+					this.attachTo.appendChild(rootTmp);
+				}else{
+					if(datePicker.className.indexOf('jm-datepicker-hide')!=-1){
+						datePicker.classList.remove('jm-datepicker-hide');
+					}
+				}
 			}
 			this.refresh(this.curMonth);
 			this.bindEvent();
