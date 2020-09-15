@@ -139,6 +139,7 @@
 }
 .jm-datepicker .date-past{
     opacity: .5;
+    cursor: not-allowed;
 }
 .jm-datepicker .jm-date-box:nth-child(7n-6).date-past .date-num,
 .jm-datepicker .jm-date-box:nth-child(7n).date-past .date-num{
